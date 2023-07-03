@@ -69,7 +69,7 @@ func compute_network():
 				network[layer + 1][weight_i][0] += node[weight_i + 2] * node[0]
 
 
-func sigmoid(num: float): #TODO Precalculate
+func sigmoid(num: float):
 	# https://en.wikipedia.org/wiki/Sigmoid_function
-	# Using algebraic example
-	return num / sqrt(1 + num**2)
+	# Using arctan
+	return atan(num)
