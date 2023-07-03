@@ -8,6 +8,10 @@ func _ready():
 	print("network init started: ", time)
 	var hello: Network = Network.new()
 	print("network init finished: ", time)
+	
+	print("network compute started: ", time)
+	hello.compute_network()
+	print("network compute finished: ", time)
 
 func _process(delta):
 	time += delta
