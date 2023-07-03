@@ -1,13 +1,27 @@
 class_name Network
 
-var layers: int = 4
-var nodes_per_layer: Array = [10, 20, 8, 1, 0]
+var layers: int
+var nodes_per_layer: Array
 
 
 var network
 
 
-func _init():
+func _init(num_layers: int = 4, nodes_array: Array = [10, 20, 8, 1]):
+	# Set the values from the constructor
+	layers = num_layers
+	nodes_per_layer = nodes_array
+	
+	# An extra zero should be added to indicate there are no
+	# connections/weights from the output layer
+	if layers == len(nodes_per_layer):
+		nodes_per_layer.append(0)
+	
+	# Make sure the values given in the contructor have the correct number of
+	# corresponding elements
+	assert(layers + 1 == len(nodes_per_layer))
+	
+	# Generate the network
 	_generate_network()
 
 
