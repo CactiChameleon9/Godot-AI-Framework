@@ -97,12 +97,12 @@ func compute_network():
 				network[layer + 1][weight_i][0] += node[weight_i + 2] * node[0]
 
 
-func randomise_weights(range: float = 1, preserve: float = 0.2):
+func randomise_weights(rand_range: float = 1, preserve_percentage: float = 0.2):
 	for layer in network:
 		for node in layer:
 			for weight in range(2, len(node)):
-				if randf() < preserve: continue
-				node[weight] = randf_range(-range/2, range/2)
+				if randf() < preserve_percentage: continue
+				node[weight] = randf_range(-rand_range/2, rand_range/2)
 
 
 func sigmoid(num: float):
