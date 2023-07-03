@@ -11,7 +11,7 @@ func _init():
 	_generate_network()
 
 
-func _generate_network(fill = 0): #TODO Optimise
+func _generate_network(fill = 0.0): #TODO Optimise
 	# Initalise the empty array
 	network = []
 	
@@ -37,6 +37,20 @@ func _generate_network(fill = 0): #TODO Optimise
 			network[layer][node].fill(fill)
 
 
+func set_inputs(inputs: Array):
+	assert(len(inputs) == nodes_per_layer[0])
+	
+	for input_i in len(inputs):
+		network[0][input_i][0] = inputs[input_i]
+
+
+func get_outputs() -> Array:
+	var outputs = []
+	for output_i in nodes_per_layer[-2]:
+		outputs.append(network[-1][output_i][0])
+	return outputs
+
+
 func compute_network():
 	# NL = Next Layer
 	# CL = Current Layer
@@ -58,7 +72,7 @@ func compute_network():
 		# (1) except for the output layer (next layer does not exist)
 		if layer + 1 < layers:
 			for node in network[layer + 1]:
-				node[0] = 0
+				node[0] = 0.0
 		
 		# (3), (4), (2)
 		for node in network[layer]:
@@ -69,7 +83,15 @@ func compute_network():
 				network[layer + 1][weight_i][0] += node[weight_i + 2] * node[0]
 
 
+func randomise_weights(range: float = 1, preserve: float = 0.2):
+	for layer in network:
+		for node in layer:
+			for weight in range(2, len(node)):
+				if randf() < preserve: continue
+				node[weight] = randf_range(-range/2, range/2)
+
+
 func sigmoid(num: float):
 	# https://en.wikipedia.org/wiki/Sigmoid_function
 	# Using arctan
-	return atan(num)
+	return 2/PI * atan(num * PI/2)
