@@ -1,13 +1,13 @@
 class_name Network
 
 var layers: int
-var nodes_per_layer: Array
+var nodes_per_layer: Array[int]
 
 
-var network
+var network: Array[Array]
 
 
-func _init(num_layers: int = 4, nodes_array: Array = [10, 20, 8, 1]):
+func _init(num_layers: int = 4, nodes_array: Array[int] = [10, 20, 8, 1]):
 	# Set the values from the constructor
 	layers = num_layers
 	nodes_per_layer = nodes_array
@@ -51,15 +51,15 @@ func _generate_network(fill = 0.0): #TODO Optimise
 			network[layer][node].fill(fill)
 
 
-func set_inputs(inputs: Array):
+func set_inputs(inputs: Array[float]):
 	assert(len(inputs) == nodes_per_layer[0])
 	
 	for input_i in len(inputs):
 		network[0][input_i][0] = inputs[input_i]
 
 
-func get_outputs() -> Array:
-	var outputs = []
+func get_outputs() -> Array[float]:
+	var outputs: Array[float] = []
 	for output_i in nodes_per_layer[-2]:
 		outputs.append(network[-1][output_i][0])
 	return outputs
