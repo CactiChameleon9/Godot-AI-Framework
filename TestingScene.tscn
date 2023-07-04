@@ -1,10 +1,10 @@
 [gd_scene load_steps=3 format=3 uid="uid://1u3keyeqcaqt"]
 
 [ext_resource type="Script" path="res://TestingScene.gd" id="1_l36da"]
-[ext_resource type="Script" path="res://GeneticManager.gd" id="2_f80ox"]
+[ext_resource type="Script" path="res://addons/Godot AI Framework/GeneticManager.gd" id="2_eqol3"]
 
 [node name="TestingScene" type="Node2D"]
 script = ExtResource("1_l36da")
 
 [node name="GeneticManager" type="Node" parent="."]
-script = ExtResource("2_f80ox")
+script = ExtResource("2_eqol3")

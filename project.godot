@@ -14,3 +14,7 @@ config/name="Godot AI Framework"
 run/main_scene="res://TestingScene.tscn"
 config/features=PackedStringArray("4.0", "Forward Plus")
 config/icon="res://icon.svg"
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/Godot AI Framewor/plugin.cfg", "res://addons/Godot AI Framework/plugin.cfg")
