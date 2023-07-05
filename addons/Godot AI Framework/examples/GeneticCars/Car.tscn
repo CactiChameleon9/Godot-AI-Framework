@@ -1,0 +1,71 @@
+[gd_scene load_steps=3 format=3 uid="uid://bri7s2sfoqt2y"]
+
+[ext_resource type="Script" path="res://addons/Godot AI Framework/examples/GeneticCars/Car.gd" id="1_o23uq"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_jme2i"]
+radius = 24.0208
+
+[node name="Car" type="RigidBody2D"]
+collision_layer = 2
+script = ExtResource("1_o23uq")
+
+[node name="Suspension" type="Node2D" parent="."]
+
+[node name="FrontSpringJoint" type="DampedSpringJoint2D" parent="Suspension"]
+position = Vector2(81, 4)
+node_a = NodePath("../..")
+node_b = NodePath("../../FrontWheel")
+stiffness = 40.0
+
+[node name="FrontGroveJoint" type="GrooveJoint2D" parent="Suspension"]
+position = Vector2(81, 4)
+node_a = NodePath("../..")
+node_b = NodePath("../../FrontWheel")
+
+[node name="BackSpringJoint" type="DampedSpringJoint2D" parent="Suspension"]
+position = Vector2(-49, 2)
+node_a = NodePath("../..")
+node_b = NodePath("../../BackWheel")
+stiffness = 40.0
+
+[node name="BackGroveJoint" type="GrooveJoint2D" parent="Suspension"]
+position = Vector2(-49, 2)
+node_a = NodePath("../..")
+node_b = NodePath("../../BackWheel")
+
+[node name="BodyCollision" type="CollisionPolygon2D" parent="."]
+polygon = PackedVector2Array(-90, -19, -36, -71, 50, -77, 123, -18, 103, 21, -89, 21)
+
+[node name="BodyTexture" type="Polygon2D" parent="."]
+color = Color(0.666667, 0.345098, 0.54902, 1)
+polygon = PackedVector2Array(-90, -19, -36, -71, 50, -77, 123, -18, 103, 21, -89, 21)
+
+[node name="FrontWheel" type="RigidBody2D" parent="."]
+position = Vector2(79, 34)
+collision_layer = 2
+
+[node name="Collision" type="CollisionShape2D" parent="FrontWheel"]
+shape = SubResource("CircleShape2D_jme2i")
+
+[node name="Texture" type="Polygon2D" parent="FrontWheel"]
+color = Color(0.447059, 0.454902, 0.541176, 1)
+polygon = PackedVector2Array(-23, -11, -10, -23, 6, -24, 16, -20, 24, -9, 25, 6, 23, 12, 17, 18, 8, 24, -1, 24, -8, 24, -16, 19, -24, 7)
+
+[node name="BackWheel" type="RigidBody2D" parent="."]
+position = Vector2(-51, 34)
+collision_layer = 2
+
+[node name="Collision" type="CollisionShape2D" parent="BackWheel"]
+shape = SubResource("CircleShape2D_jme2i")
+
+[node name="Texture" type="Polygon2D" parent="BackWheel"]
+color = Color(0.447059, 0.454902, 0.541176, 1)
+polygon = PackedVector2Array(-23, -11, -10, -23, 6, -24, 16, -20, 24, -9, 25, 6, 23, 12, 17, 18, 8, 24, -1, 24, -8, 24, -16, 19, -24, 7)
+
+[node name="AliveTimer" type="Timer" parent="."]
+process_callback = 0
+wait_time = 5.0
+one_shot = true
+autostart = true
+
+[connection signal="timeout" from="AliveTimer" to="." method="_on_alive_timer_timeout"]
