@@ -17,4 +17,4 @@ config/icon="res://icon.svg"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/Godot AI Framewor/plugin.cfg", "res://addons/Godot AI Framework/plugin.cfg")
+enabled=PackedStringArray("res://addons/Godot AI Framework/plugin.cfg")

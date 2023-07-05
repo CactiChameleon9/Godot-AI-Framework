@@ -1,6 +1,6 @@
 extends Resource
-class_name CallableFunc
+class_name ObjectiveCallableFunc
 
 # Extend and Override this function
-func run(parameters):
+func run(node: Node) -> float:
 	return 0
