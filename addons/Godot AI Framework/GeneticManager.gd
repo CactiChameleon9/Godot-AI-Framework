@@ -30,16 +30,13 @@ class_name GeneticManager
 ########################################
 @export_range(0, 200, 1, "or_greater") var population_number: int = 50
 
-@export_subgroup("Percents must total 1:")
-@export_placeholder("") var __ = "" #Empty variable so that subgroup shows
-@export_subgroup("")
-
 @export_range(0, 1) var preserve_top_percent: float = 0.1
-@export_range(0, 1) var merge_mutate_percent: float = 0.8
-@export_range(0, 1) var generate_new_percent: float = 0.1
+@export_range(0, 1) var merge_mutate_percent: float = 0.6
+@export_range(0, 1) var generate_new_percent: float = 0.3
 
 @export_range(0, 1) var discard_worst_percent: float = 0.6
-
+@export_range(0.1, 20, 0.1, "or_greater") var mutation_strength: float = 5
+@export_range(0, 1 ) var mutation_percent: float = 0.4
 
 var _objective_function: ObjectiveCallableFunc
 
@@ -63,14 +60,18 @@ func _ready():
 
 func _physics_process(delta):
 	
-	# Increase the frame_count and check if we need to skip
+	# Increase the frame_count
 	_frame_count += 1
 	_frame_count %= network_run_frame_frequency
-	if _frame_count != 0:
-		return
 	
-	# Run every node's network
-	for i in population_number:
+	# Split the networks to compute based on _frame_count and frequency
+	var min_node_i: int = (population_number * 
+							_frame_count/network_run_frame_frequency)
+	var max_node_i: int = (population_number * 
+							(_frame_count + 1)/network_run_frame_frequency)
+	
+	# Run that respective group of node's network
+	for i in range(min_node_i, max_node_i):
 		# Get the input data
 		var input_data: Array[float] = []
 		for property in node_input_properties:
@@ -101,7 +102,7 @@ func _generate_nodes():
 func _generate_fill_networks():
 	for _i in population_number - len(_networks):
 		var new_network: Network = Network.new(network_layers.size(), network_layers.duplicate())
-		new_network.randomise_weights(1, 0)
+		new_network.randomise_weights(mutation_strength, 0)
 		_networks.append([new_network, 0])
 
 
@@ -147,7 +148,7 @@ func _generate_new_generation():
 		var network1 = _networks.pick_random()[0]
 		var network2 = _networks.pick_random()[0]
 		var new_network: Network = MergeableNetwork.new(network1, network2)
-		new_network.randomise_weights(1, 0.6)
+		new_network.randomise_weights(1, 1 - mutation_percent)
 		new_networks.append([new_network, 0])
 	
 	_networks = new_networks

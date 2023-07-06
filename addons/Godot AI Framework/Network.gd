@@ -102,7 +102,7 @@ func randomise_weights(rand_range: float = 1, preserve_percentage: float = 0.2):
 		for node in layer:
 			for weight in range(2, len(node)):
 				if randf() < preserve_percentage: continue
-				node[weight] = randf_range(-rand_range/2, rand_range/2)
+				node[weight] += randf_range(-rand_range/2, rand_range/2)
 
 
 func sigmoid(num: float):
