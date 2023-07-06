@@ -1,6 +1,9 @@
 extends Node
 class_name GeneticManager
 
+# Signal for when a generation has finished - best evaluation emitted also
+signal generation_finished(float)
+
 # A subclass of CallableFunc that has its run() function overridden
 # to calculate how well a variation performed (objective)
 @export_file("*.gd") var objective_function_file: String
@@ -130,8 +133,8 @@ func _generate_new_generation():
 	_networks.sort_custom(func(a, b):
 		return a[1] > b[1] if larger_is_better else a[1] < b[1])
 	
-	# Print the best evaluation
-	print("Best = ", _networks[0][1])
+	# Emit the best evaluation + finished
+	generation_finished.emit(_networks[0][1])
 	
 	# Remove the bottom percent
 	for _i in int(population_number * discard_worst_percent):
