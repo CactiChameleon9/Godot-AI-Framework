@@ -26,4 +26,4 @@ node_output_properties = Array[String](["front_wheel_throttle", "back_wheel_thro
 node_scene_tree_root = NodePath("../CarSpawn")
 
 [node name="CarSpawn" type="Node2D" parent="."]
-position = Vector2(580, 360)
+position = Vector2(252, 406)

@@ -9,58 +9,68 @@ radius = 24.0208
 collision_layer = 2
 script = ExtResource("1_o23uq")
 
-[node name="Suspension" type="Node2D" parent="."]
-
-[node name="FrontSpringJoint" type="DampedSpringJoint2D" parent="Suspension"]
-position = Vector2(81, 4)
-node_a = NodePath("../..")
-node_b = NodePath("../../FrontWheel")
-stiffness = 40.0
-
-[node name="FrontGroveJoint" type="GrooveJoint2D" parent="Suspension"]
-position = Vector2(81, 4)
-node_a = NodePath("../..")
-node_b = NodePath("../../FrontWheel")
-
-[node name="BackSpringJoint" type="DampedSpringJoint2D" parent="Suspension"]
-position = Vector2(-49, 2)
-node_a = NodePath("../..")
-node_b = NodePath("../../BackWheel")
-stiffness = 40.0
-
-[node name="BackGroveJoint" type="GrooveJoint2D" parent="Suspension"]
-position = Vector2(-49, 2)
-node_a = NodePath("../..")
-node_b = NodePath("../../BackWheel")
-
 [node name="BodyCollision" type="CollisionPolygon2D" parent="."]
+scale = Vector2(0.5, 0.5)
 polygon = PackedVector2Array(-90, -19, -36, -71, 50, -77, 123, -18, 103, 21, -89, 21)
 
 [node name="BodyTexture" type="Polygon2D" parent="."]
+scale = Vector2(0.5, 0.5)
 color = Color(0.666667, 0.345098, 0.54902, 1)
 polygon = PackedVector2Array(-90, -19, -36, -71, 50, -77, 123, -18, 103, 21, -89, 21)
 
 [node name="FrontWheel" type="RigidBody2D" parent="."]
-position = Vector2(79, 34)
+position = Vector2(39, 22)
 collision_layer = 2
 
 [node name="Collision" type="CollisionShape2D" parent="FrontWheel"]
+scale = Vector2(0.5, 0.5)
 shape = SubResource("CircleShape2D_jme2i")
 
 [node name="Texture" type="Polygon2D" parent="FrontWheel"]
+scale = Vector2(0.5, 0.5)
 color = Color(0.447059, 0.454902, 0.541176, 1)
 polygon = PackedVector2Array(-23, -11, -10, -23, 6, -24, 16, -20, 24, -9, 25, 6, 23, 12, 17, 18, 8, 24, -1, 24, -8, 24, -16, 19, -24, 7)
 
 [node name="BackWheel" type="RigidBody2D" parent="."]
-position = Vector2(-51, 34)
+position = Vector2(-29, 22)
 collision_layer = 2
 
 [node name="Collision" type="CollisionShape2D" parent="BackWheel"]
+scale = Vector2(0.5, 0.5)
 shape = SubResource("CircleShape2D_jme2i")
 
 [node name="Texture" type="Polygon2D" parent="BackWheel"]
+scale = Vector2(0.5, 0.5)
 color = Color(0.447059, 0.454902, 0.541176, 1)
 polygon = PackedVector2Array(-23, -11, -10, -23, 6, -24, 16, -20, 24, -9, 25, 6, 23, 12, 17, 18, 8, 24, -1, 24, -8, 24, -16, 19, -24, 7)
+
+[node name="Suspension" type="Node2D" parent="."]
+
+[node name="FrontSpringJoint" type="DampedSpringJoint2D" parent="Suspension"]
+position = Vector2(39, 6)
+node_a = NodePath("../..")
+node_b = NodePath("../../FrontWheel")
+length = 15.0
+
+[node name="FrontGroveJoint" type="GrooveJoint2D" parent="Suspension"]
+position = Vector2(39, 6)
+node_a = NodePath("../..")
+node_b = NodePath("../../FrontWheel")
+length = 15.0
+initial_offset = 15.0
+
+[node name="BackSpringJoint" type="DampedSpringJoint2D" parent="Suspension"]
+position = Vector2(-29, 6)
+node_a = NodePath("../..")
+node_b = NodePath("../../BackWheel")
+length = 15.0
+
+[node name="BackGroveJoint" type="GrooveJoint2D" parent="Suspension"]
+position = Vector2(-29, 6)
+node_a = NodePath("../..")
+node_b = NodePath("../../BackWheel")
+length = 15.0
+initial_offset = 15.0
 
 [node name="AliveTimer" type="Timer" parent="."]
 process_callback = 0
