@@ -43,6 +43,8 @@ class_name GeneticManager
 
 var _objective_function: ObjectiveCallableFunc
 
+var _frame_count: int = 0
+
 var _nodes: Array[Node] = []
 
 # Will contain [Network, Evaluation(float)]
@@ -57,6 +59,31 @@ func _ready():
 	
 	_generate_nodes()
 	_generate_fill_networks()
+
+
+func _physics_process(delta):
+	
+	# Increase the frame_count and check if we need to skip
+	_frame_count += 1
+	_frame_count %= network_run_frame_frequency
+	if _frame_count != 0:
+		return
+	
+	# Run every node's network
+	for i in population_number:
+		# Get the input data
+		var input_data: Array[float] = []
+		for property in node_input_properties:
+			input_data.append(_nodes[i].get(property))
+		
+		# Enter the input data, compute through the network and get output
+		_networks[i][0].set_inputs(input_data)
+		_networks[i][0].compute_network()
+		var output_data: Array[float] = _networks[i][0].get_outputs()
+		
+		# Set the output data
+		for j in len(node_output_properties):
+			_nodes[i].set(node_output_properties[j], output_data[j])
 
 
 func _generate_nodes():
@@ -100,7 +127,10 @@ func _generate_new_generation():
 	
 	# Find the top performing networks to keep (sort by evaluation)
 	_networks.sort_custom(func(a, b):
-		return a[1] < b[1] if larger_is_better else a[1] > b[1])
+		return a[1] > b[1] if larger_is_better else a[1] < b[1])
+	
+	# Print the best evaluation
+	print("Best = ", _networks[0][1])
 	
 	# Remove the bottom percent
 	for _i in int(population_number * discard_worst_percent):

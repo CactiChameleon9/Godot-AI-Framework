@@ -23,3 +23,7 @@ objective_function_file = "res://addons/Godot AI Framework/examples/GeneticCars/
 node_scene = ExtResource("1_i6ppv")
 node_input_properties = Array[String](["front_wheel_velocity", "back_wheel_velocity", "rotation"])
 node_output_properties = Array[String](["front_wheel_throttle", "back_wheel_throttle"])
+node_scene_tree_root = NodePath("../CarSpawn")
+
+[node name="CarSpawn" type="Node2D" parent="."]
+position = Vector2(580, 360)

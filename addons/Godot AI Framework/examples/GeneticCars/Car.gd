@@ -9,7 +9,7 @@ var front_wheel_throttle: float = 0
 var back_wheel_velocity: float = 0
 var back_wheel_throttle: float = 0
 
-var max_acceleration: float = 2.0
+var max_acceleration: float = 200.0
 
 
 func _physics_process(delta):
@@ -21,3 +21,4 @@ func _physics_process(delta):
 
 func _on_alive_timer_timeout():
 	emit_signal("finished", self)
+	queue_free()
