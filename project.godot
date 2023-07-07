@@ -11,8 +11,8 @@ config_version=5
 [application]
 
 config/name="Godot AI Framework"
-run/main_scene="res://TestingScene.tscn"
-config/features=PackedStringArray("4.0", "Forward Plus")
+run/main_scene="res://addons/Godot AI Framework/examples/GeneticManagerExamples/CarsDodgeSpikes/CarsDodgeSpikes.tscn"
+config/features=PackedStringArray("4.1", "Forward Plus")
 config/icon="res://icon.svg"
 
 [editor_plugins]

@@ -1,0 +1,120 @@
+[gd_scene load_steps=3 format=3 uid="uid://dlxmq72ie2r4l"]
+
+[ext_resource type="Script" path="res://addons/Godot AI Framework/examples/GeneticManagerExamples/CarsDodgeSpikes/Car.gd" id="1_67t2p"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_jme2i"]
+radius = 24.0208
+
+[node name="Car" type="RigidBody2D"]
+collision_layer = 2
+script = ExtResource("1_67t2p")
+
+[node name="BodyCollision" type="CollisionPolygon2D" parent="."]
+scale = Vector2(0.5, 0.5)
+polygon = PackedVector2Array(-90, -19, -36, -71, 50, -77, 123, -18, 103, 21, -89, 21)
+
+[node name="BodyTexture" type="Polygon2D" parent="."]
+scale = Vector2(0.5, 0.5)
+color = Color(0.666667, 0.345098, 0.54902, 1)
+polygon = PackedVector2Array(-90, -19, -36, -71, 50, -77, 123, -18, 103, 21, -89, 21)
+
+[node name="FrontWheel" type="RigidBody2D" parent="."]
+position = Vector2(39, 22)
+collision_layer = 2
+
+[node name="Collision" type="CollisionShape2D" parent="FrontWheel"]
+scale = Vector2(0.5, 0.5)
+shape = SubResource("CircleShape2D_jme2i")
+
+[node name="Texture" type="Polygon2D" parent="FrontWheel"]
+scale = Vector2(0.5, 0.5)
+color = Color(0.447059, 0.454902, 0.541176, 0.701961)
+polygon = PackedVector2Array(-23, -11, -10, -23, 6, -24, 16, -20, 24, -9, 25, 6, 23, 12, 17, 18, 8, 24, -1, 24, -8, 24, -16, 19, -24, 7)
+
+[node name="BackWheel" type="RigidBody2D" parent="."]
+position = Vector2(-29, 22)
+collision_layer = 2
+
+[node name="Collision" type="CollisionShape2D" parent="BackWheel"]
+scale = Vector2(0.5, 0.5)
+shape = SubResource("CircleShape2D_jme2i")
+
+[node name="Texture" type="Polygon2D" parent="BackWheel"]
+scale = Vector2(0.5, 0.5)
+color = Color(0.447059, 0.454902, 0.541176, 0.701961)
+polygon = PackedVector2Array(-23, -11, -10, -23, 6, -24, 16, -20, 24, -9, 25, 6, 23, 12, 17, 18, 8, 24, -1, 24, -8, 24, -16, 19, -24, 7)
+
+[node name="Suspension" type="Node2D" parent="."]
+
+[node name="FrontSpringJoint" type="DampedSpringJoint2D" parent="Suspension"]
+position = Vector2(39, 6)
+node_a = NodePath("../..")
+node_b = NodePath("../../FrontWheel")
+length = 15.0
+
+[node name="FrontGroveJoint" type="GrooveJoint2D" parent="Suspension"]
+position = Vector2(39, 6)
+node_a = NodePath("../..")
+node_b = NodePath("../../FrontWheel")
+length = 15.0
+initial_offset = 15.0
+
+[node name="BackSpringJoint" type="DampedSpringJoint2D" parent="Suspension"]
+position = Vector2(-29, 6)
+node_a = NodePath("../..")
+node_b = NodePath("../../BackWheel")
+length = 15.0
+
+[node name="BackGroveJoint" type="GrooveJoint2D" parent="Suspension"]
+position = Vector2(-29, 6)
+node_a = NodePath("../..")
+node_b = NodePath("../../BackWheel")
+length = 15.0
+initial_offset = 15.0
+
+[node name="RayCasters" type="Node2D" parent="."]
+position = Vector2(6, -13)
+
+[node name="RayCast1" type="RayCast2D" parent="RayCasters"]
+target_position = Vector2(-200, 0)
+
+[node name="RayCast2" type="RayCast2D" parent="RayCasters"]
+target_position = Vector2(-150, -1000)
+
+[node name="RayCast3" type="RayCast2D" parent="RayCasters"]
+target_position = Vector2(0, -1000)
+
+[node name="RayCast4" type="RayCast2D" parent="RayCasters"]
+target_position = Vector2(150, -1000)
+
+[node name="RayCast5" type="RayCast2D" parent="RayCasters"]
+target_position = Vector2(213, -94)
+
+[node name="RayCast6" type="RayCast2D" parent="RayCasters"]
+target_position = Vector2(-195, -97)
+
+[node name="RayCast7" type="RayCast2D" parent="RayCasters"]
+target_position = Vector2(-233, -665)
+
+[node name="RayCast8" type="RayCast2D" parent="RayCasters"]
+target_position = Vector2(-4, -489)
+
+[node name="RayCast9" type="RayCast2D" parent="RayCasters"]
+target_position = Vector2(221, -564)
+
+[node name="RayCast10" type="RayCast2D" parent="RayCasters"]
+target_position = Vector2(77, -165)
+
+[node name="RayCast11" type="RayCast2D" parent="RayCasters"]
+target_position = Vector2(-72, -165)
+
+[node name="RayCast12" type="RayCast2D" parent="RayCasters"]
+target_position = Vector2(200, 0)
+
+[node name="AliveTimer" type="Timer" parent="."]
+process_callback = 0
+wait_time = 50.0
+one_shot = true
+autostart = true
+
+[connection signal="timeout" from="AliveTimer" to="." method="die"]

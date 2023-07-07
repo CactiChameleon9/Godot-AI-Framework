@@ -1,0 +1,77 @@
+[gd_scene load_steps=6 format=3 uid="uid://h8d0f1c8xet"]
+
+[ext_resource type="Script" path="res://addons/Godot AI Framework/GeneticManager.gd" id="1_76611"]
+[ext_resource type="PackedScene" uid="uid://dlxmq72ie2r4l" path="res://addons/Godot AI Framework/examples/GeneticManagerExamples/CarsDodgeSpikes/Car.tscn" id="2_01yh8"]
+[ext_resource type="Script" path="res://addons/Godot AI Framework/examples/GeneticManagerExamples/CarsDodgeSpikes/SpikeSpawner.gd" id="3_5gvq5"]
+[ext_resource type="PackedScene" uid="uid://ctt5onvrwfdnu" path="res://addons/Godot AI Framework/examples/GeneticManagerExamples/CarsDodgeSpikes/Spike.tscn" id="4_06mp4"]
+
+[sub_resource type="GDScript" id="GDScript_wqhvr"]
+script/source = "extends Label
+
+
+func _on_genetic_manager_generation_finished(evaluation: float):
+	text = \"Best of last Gen: %s\" % evaluation
+"
+
+[node name="GeneticCars" type="Node2D"]
+
+[node name="Floor" type="StaticBody2D" parent="."]
+position = Vector2(403, 694)
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Floor"]
+position = Vector2(2, 0)
+polygon = PackedVector2Array(-471, -76, 860, -76, 860, 50, -480, 66)
+
+[node name="Polygon2D" type="Polygon2D" parent="Floor"]
+position = Vector2(2, 0)
+color = Color(0.988235, 0.529412, 0.447059, 1)
+polygon = PackedVector2Array(-471, -76, 860, -76, 860, 50, -480, 66)
+
+[node name="CarSpawn" type="Node2D" parent="."]
+position = Vector2(572, 476)
+
+[node name="SpikeSpawner" type="Node2D" parent="."]
+position = Vector2(576, 0)
+script = ExtResource("3_5gvq5")
+spike = ExtResource("4_06mp4")
+
+[node name="SpawnTimer" type="Timer" parent="SpikeSpawner"]
+autostart = true
+
+[node name="EndSpike1" parent="." instance=ExtResource("4_06mp4")]
+position = Vector2(4, 583)
+freeze = true
+
+[node name="EndSpike2" parent="." instance=ExtResource("4_06mp4")]
+position = Vector2(1158, 597)
+freeze = true
+
+[node name="BestLabel" type="Label" parent="."]
+offset_right = 405.0
+offset_bottom = 72.0
+size_flags_vertical = 0
+theme_override_font_sizes/font_size = 50
+text = "Best of last Gen: "
+script = SubResource("GDScript_wqhvr")
+
+[node name="GeneticManager" type="Node" parent="."]
+script = ExtResource("1_76611")
+objective_function_file = "res://addons/Godot AI Framework/examples/GeneticManagerExamples/CarsDodgeSpikes/Objective.gd"
+larger_is_better = false
+network_run_frame_frequency = 4
+node_scene = ExtResource("2_01yh8")
+node_input_properties = Array[String](["linear_velocity:x", "raycast1", "raycast2", "raycast3", "raycast4", "raycast5", "raycast6", "raycast7", "raycast8", "raycast9", "raycast10", "raycast11", "raycast12"])
+node_output_properties = Array[String](["wheel_throttle"])
+node_scene_tree_root = NodePath("../CarSpawn")
+network_layers = Array[int]([13, 10, 10, 1])
+population_number = 100
+preserve_top_percent = 0.2
+merge_mutate_percent = 0.7
+generate_new_percent = 0.1
+discard_worst_percent = 0.9
+mutation_strength = 2.3
+mutation_percent = 0.05
+
+[connection signal="timeout" from="SpikeSpawner/SpawnTimer" to="SpikeSpawner" method="_on_timer_timeout"]
+[connection signal="generation_finished" from="GeneticManager" to="SpikeSpawner" method="_kill_all"]
+[connection signal="generation_finished" from="GeneticManager" to="BestLabel" method="_on_genetic_manager_generation_finished"]
