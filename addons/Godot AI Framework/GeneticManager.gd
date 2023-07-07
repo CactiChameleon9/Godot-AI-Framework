@@ -75,10 +75,15 @@ func _physics_process(delta):
 	
 	# Run that respective group of node's network
 	for i in range(min_node_i, max_node_i):
+		
+		# Don't run if node does not exist
+		if not is_instance_valid(_nodes[i]):
+			continue
+		
 		# Get the input data
 		var input_data: Array[float] = []
 		for property in node_input_properties:
-			input_data.append(_nodes[i].get(property))
+			input_data.append(_nodes[i].get_indexed(property))
 		
 		# Enter the input data, compute through the network and get output
 		_networks[i][0].set_inputs(input_data)
@@ -87,7 +92,7 @@ func _physics_process(delta):
 		
 		# Set the output data
 		for j in len(node_output_properties):
-			_nodes[i].set(node_output_properties[j], output_data[j])
+			_nodes[i].set_indexed(node_output_properties[j], output_data[j])
 
 
 func _generate_nodes():
