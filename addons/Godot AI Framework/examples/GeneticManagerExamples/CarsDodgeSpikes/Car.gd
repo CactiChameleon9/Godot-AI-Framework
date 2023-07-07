@@ -35,18 +35,10 @@ func _physics_process(delta):
 	$FrontWheel.angular_velocity += max_acceleration * wheel_throttle * delta
 	$BackWheel.angular_velocity += max_acceleration * wheel_throttle * delta
 	
-	raycast1 = 1.0 if $RayCasters/RayCast1.is_colliding() else 0.0
-	raycast2 = 1.0 if $RayCasters/RayCast2.is_colliding() else 0.0
-	raycast3 = 1.0 if $RayCasters/RayCast3.is_colliding() else 0.0
-	raycast4 = 1.0 if $RayCasters/RayCast4.is_colliding() else 0.0
-	raycast5 = 1.0 if $RayCasters/RayCast5.is_colliding() else 0.0
-	raycast6 = 1.0 if $RayCasters/RayCast6.is_colliding() else 0.0
-	raycast7 = 1.0 if $RayCasters/RayCast7.is_colliding() else 0.0
-	raycast8 = 1.0 if $RayCasters/RayCast8.is_colliding() else 0.0
-	raycast9 = 1.0 if $RayCasters/RayCast9.is_colliding() else 0.0
-	raycast10 = 1.0 if $RayCasters/RayCast10.is_colliding() else 0.0
-	raycast11 = 1.0 if $RayCasters/RayCast11.is_colliding() else 0.0
-	raycast12 = 1.0 if $RayCasters/RayCast12.is_colliding() else 0.0
+	for i in range(1, 13):
+		var caster: RayCast2D = get_node("RayCasters/RayCast%s" % i)
+		set("raycast%s" % i, 1.0 if caster.is_colliding() else 0.0)
+
 
 func die():
 	emit_signal("finished", self)
