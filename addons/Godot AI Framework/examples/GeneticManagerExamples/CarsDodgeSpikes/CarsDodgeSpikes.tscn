@@ -46,6 +46,10 @@ freeze = true
 position = Vector2(1158, 597)
 freeze = true
 
+[node name="HumanControlledCar" parent="." instance=ExtResource("2_01yh8")]
+position = Vector2(176, 519)
+human_controlled = true
+
 [node name="BestLabel" type="Label" parent="."]
 offset_right = 405.0
 offset_bottom = 72.0

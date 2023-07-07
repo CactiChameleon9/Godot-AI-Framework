@@ -2,6 +2,7 @@ extends RigidBody2D
 
 signal finished(Node)
 
+@export var human_controlled: bool = false
 
 var wheel_throttle: float = 0
 
@@ -25,6 +26,11 @@ func _ready():
 
 
 func _physics_process(delta):
+	
+	if human_controlled:
+		$AliveTimer.stop()
+		wheel_throttle = Input.get_action_strength("ui_right")
+		wheel_throttle -= Input.get_action_strength("ui_left")
 	
 	$FrontWheel.angular_velocity += max_acceleration * wheel_throttle * delta
 	$BackWheel.angular_velocity += max_acceleration * wheel_throttle * delta
