@@ -96,12 +96,13 @@ func _physics_process(delta):
 
 
 func _generate_nodes():
+	var node_root: Node = get_node(node_scene_tree_root)
 	# Make the correct number of nodes
 	for i in population_number:
 		# Instanciate the node and add it to the scene tree
 		var node = node_scene.instantiate()
 		_nodes[i] = node
-		get_node(node_scene_tree_root).add_child(node)
+		node_root.call_deferred("add_child", node)
 		
 		# Connect up the node_finished signal to the evaluation function
 		node.connect(node_finished_signal, _evaluate_node)
